@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d19e19c1-ebf9-4e7d-a456-f9f92295dc09" name="haolin@10.26.0.68:22" url="http:///">
+        <fileTransfer host="10.26.0.68" port="22" rootFolder="/data2/haolin/" accessType="SFTP">
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

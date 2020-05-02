@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="haolin@10.26.0.68:22" autoUploadExternalChanges="true">
+    <serverData>
+      <paths name="2080_server">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/PUGAN_pytorch" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="haolin@10.26.0.68:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/PUGAN_pytorch" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
