@@ -121,12 +121,12 @@ class feature_extraction(nn.Module):
         return l4_features
 
 class Generator(nn.Module):
-    def __init__(self,params):
+    def __init__(self,params=None):
         super(Generator,self).__init__()
         self.feature_extractor=feature_extraction()
-        self.up_ratio=params['up_ratio']
-        self.num_points=params['patch_num_point']
-        self.out_num_point=int(self.num_points*self.up_ratio)
+        #self.up_ratio=params['up_ratio']
+        #self.num_points=params['patch_num_point']
+        #self.out_num_point=int(self.num_points*self.up_ratio)
         self.up_projection_unit=up_projection_unit()
 
         self.conv1=nn.Sequential(
@@ -267,10 +267,11 @@ class down_block(nn.Module):
         self.up_ratio=up_ratio
     def forward(self,inputs):
         net=inputs#b,128,n*4
-        net = torch.cat(
-            [net[:, :, 0:1024].unsqueeze(2), net[:, :, 1024:2048].unsqueeze(2), net[:, :, 2048:3072].unsqueeze(2),
-             net[:, :, 3072:4096].unsqueeze(2)], dim=2)
-        #net=net.view([inputs.shape[0],inputs.shape[1],self.up_ratio,-1])#b,128,4,n
+        #net = torch.cat(
+        #    [net[:, :, 0:1024].unsqueeze(2), net[:, :, 1024:2048].unsqueeze(2), net[:, :, 2048:3072].unsqueeze(2),
+        #     net[:, :, 3072:4096].unsqueeze(2)], dim=2)
+        net=net.view([inputs.shape[0],inputs.shape[1],self.up_ratio,-1])#b,128,4,n
+        #net=torch.cat(torch.unbind(net,dim=2),dim=2)
         net=self.conv1(net)#b,256,1,n
         net=net.squeeze(2)
         net=self.conv2(net)
@@ -293,6 +294,7 @@ class up_projection_unit(nn.Module):
         H0=self.up_block1(L)#b,128,n*4
         L0=self.down_block(H0)#b,128,n
 
+        print(H0.shape,L0.shape,L.shape)
         E0=L0-L #b,128,n
         H1=self.up_block2(E0)#b,128,4*n
         H2=H0+H1 #b,128,4*n
@@ -314,6 +316,7 @@ class mlp_conv(nn.Module):
                     Conv1d(in_channels=layer_dim[i-1],out_channels=num_out_channel,kernel_size=1),
                     nn.ReLU()
                 )
+                self.conv_list.append(sub_module)
         self.conv_list.append(
             Conv1d(in_channels=layer_dim[-2],out_channels=layer_dim[-1],kernel_size=1)
         )

@@ -6,6 +6,32 @@ import numpy as np
 import utils.data_util as utils
 from torchvision import transforms
 
+class PUNET_Dataset_Whole(data.Dataset):
+    def __init__(self, data_dir='../MC_5k',n_input=1024):
+        super().__init__()
+        self.raw_input_points=5000
+        self.n_input=1024
+
+        file_list = os.listdir(data_dir)
+        self.names = [x.split('.')[0] for x in file_list]
+        self.sample_path = [os.path.join(data_dir, x) for x in file_list]
+
+    def __len__(self):
+        return len(self.names)
+
+    def __getitem__(self, index):
+        random_index=np.random.choice(np.linspace(0,self.raw_input_points,self.raw_input_points,endpoint=False),self.n_input).astype(np.int)
+        points = np.loadtxt(self.sample_path[index])
+
+        centroid=np.mean(points[:,0:3],axis=0)
+        dist=np.linalg.norm(points[:,0:3]-centroid,axis=1)
+        furthest_dist=np.max(dist)
+
+        reduced_point=points[random_index][:,0:3]
+
+        normalized_points=(reduced_point-centroid)/furthest_dist
+
+        return normalized_points
 
 class PUNET_Dataset(data.Dataset):
     def __init__(self, h5_file_path='./datas/Patches_noHole_and_collected.h5',
@@ -68,6 +94,9 @@ class PUNET_Dataset(data.Dataset):
         return input_data, gt_data, radius_data
 
 if __name__=="__main__":
-    dataset=PUNET_Dataset()
-    (input_data,gt_data,radius_data)=dataset.__getitem__(0)
-    print(input_data.shape,gt_data.shape,radius_data.shape)
+    #dataset=PUNET_Dataset()
+    #(input_data,gt_data,radius_data)=dataset.__getitem__(0)
+    #print(input_data.shape,gt_data.shape,radius_data.shape)
+    dataset=PUNET_Dataset_Whole(data_dir="../MC_5k",n_input=1024)
+    points=dataset.__getitem__(0)
+    print(points.shape)

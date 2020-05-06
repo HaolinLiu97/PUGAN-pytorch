@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1ab68ad7-1e7e-477a-8bf3-dba476357876" name="Default Changelist" comment="" />
+    <list default="true" id="1ab68ad7-1e7e-477a-8bf3-dba476357876" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/option/test_option.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/ply_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network/networks.py" beforeDir="false" afterPath="$PROJECT_DIR$/network/networks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train/train.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,8 +24,9 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/third_party/KNN_CUDA" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JupyterTrust" id="7926159e-f74a-42a6-9c64-8a9015504eba" />
   <component name="ProjectId" id="1b4NyoRO0ustud64EwyQVgRehsR" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -133,7 +143,8 @@
       <workItem from="1588095631487" duration="2284000" />
       <workItem from="1588148553421" duration="7418000" />
       <workItem from="1588313029544" duration="7698000" />
-      <workItem from="1588337837933" duration="13069000" />
+      <workItem from="1588337837933" duration="16788000" />
+      <workItem from="1588579684073" duration="10626000" />
     </task>
     <servers />
   </component>
@@ -186,6 +197,10 @@
       <screen x="0" y="23" width="1440" height="812" />
     </state>
     <state x="229" y="66" key="SettingsEditor/0.23.1440.812@0.23.1440.812" timestamp="1588095764711" />
+    <state x="397" y="259" key="com.intellij.ide.util.TipDialog" timestamp="1588579687715">
+      <screen x="0" y="23" width="1440" height="807" />
+    </state>
+    <state x="397" y="259" key="com.intellij.ide.util.TipDialog/0.23.1440.807@0.23.1440.807" timestamp="1588579687715" />
     <state x="588" y="168" width="670" height="676" key="search.everywhere.popup" timestamp="1588068682354">
       <screen x="0" y="23" width="1440" height="821" />
     </state>
@@ -200,9 +215,9 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/network/networks.py</url>
-          <line>348</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/data/data_loader.py</url>
+          <line>6</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

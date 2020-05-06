@@ -1,5 +1,5 @@
 import os,sys
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 sys.path.append('../')
 import torch
 from network.networks import Generator,Discriminator
@@ -63,8 +63,8 @@ def train(args):
     G_model.train()
     D_model.train()
 
-    optimizer_D=Adam(D_model.parameters(),lr=params["lr_D"],betas=(0.5,0.999))
-    optimizer_G=Adam(G_model.parameters(),lr=params["lr_G"],betas=(0.5,0.999))
+    optimizer_D=Adam(D_model.parameters(),lr=params["lr_D"],betas=(0.9,0.999))
+    optimizer_G=Adam(G_model.parameters(),lr=params["lr_G"],betas=(0.9,0.999))
 
     D_scheduler = MultiStepLR(optimizer_D,[50,80],gamma=0.2)
     G_scheduler = MultiStepLR(optimizer_G,[50,80],gamma=0.2)
@@ -111,7 +111,9 @@ def train(args):
                 total_G_loss=params['uniform_w']*uniform_loss+params['emd_w']*emd_loss+ \
                 repulsion_loss*params['repulsion_w']+ g_loss*params['gan_w']
             else:
-                total_G_loss = params['uniform_w'] * uniform_loss + params['emd_w'] * emd_loss + \
+                #total_G_loss = params['uniform_w'] * uniform_loss + params['emd_w'] * emd_loss + \
+                #               repulsion_loss * params['repulsion_w']
+                total_G_loss=params['emd_w'] * emd_loss + \
                                repulsion_loss * params['repulsion_w']
 
             #total_G_loss=emd_loss
