@@ -294,7 +294,7 @@ class up_projection_unit(nn.Module):
         H0=self.up_block1(L)#b,128,n*4
         L0=self.down_block(H0)#b,128,n
 
-        print(H0.shape,L0.shape,L.shape)
+        #print(H0.shape,L0.shape,L.shape)
         E0=L0-L #b,128,n
         H1=self.up_block2(E0)#b,128,4*n
         H2=H0+H1 #b,128,4*n

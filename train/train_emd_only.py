@@ -1,6 +1,6 @@
 import os, sys
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 sys.path.append('../')
 import torch
 from network.networks import Generator, Discriminator
@@ -15,7 +15,7 @@ from torch.optim.lr_scheduler import MultiStepLR
 from loss.loss import Loss
 import datetime
 import torch.nn as nn
-from utils.visualize_utils import visualize_point_cloud
+#from utils.visualize_utils import visualize_point_cloud
 import numpy as np
 
 
@@ -49,7 +49,7 @@ def train(args):
         os.makedirs(log_dir)
     tb_logger = Logger(log_dir)
 
-    trainloader = PUNET_Dataset(h5_file_path=params["dataset_dir"])
+    trainloader = PUNET_Dataset(h5_file_path=params["dataset_dir"],split_dir=params['train_split'])
     # print(params["dataset_dir"])
     num_workers = 4
     train_data_loader = data.DataLoader(dataset=trainloader, batch_size=params["batch_size"], shuffle=True,
@@ -89,7 +89,26 @@ def train(args):
 
             emd_loss = Loss_fn.get_emd_loss(output_point_cloud.permute(0, 2, 1), gt_data.permute(0, 2, 1))
 
-            total_G_loss=emd_loss
+            if params['use_gan']==True:
+                fake_pred = D_model(output_point_cloud.detach())
+                d_loss_fake = Loss_fn.get_discriminator_loss_single(fake_pred,label=False)
+                d_loss_fake.backward()
+                optimizer_D.step()
+
+                real_pred = D_model(gt_data.detach())
+                d_loss_real = Loss_fn.get_discriminator_loss_single(real_pred, label=True)
+                d_loss_real.backward()
+                optimizer_D.step()
+
+                d_loss=d_loss_real+d_loss_fake
+
+                fake_pred=D_model(output_point_cloud)
+                g_loss=Loss_fn.get_generator_loss(fake_pred)
+
+                total_G_loss=params['emd_w']*emd_loss + g_loss*params['gan_w']
+            else:
+                total_G_loss=params['emd_w']*emd_loss
+
             total_G_loss.backward()
             optimizer_G.step()
 
@@ -99,6 +118,9 @@ def train(args):
             tb_logger.scalar_summary('emd_loss', emd_loss.item(), iter)
             tb_logger.scalar_summary('lr_D', current_lr_D, iter)
             tb_logger.scalar_summary('lr_G', current_lr_G, iter)
+            if params['use_gan']==True:
+                tb_logger.scalar_summary('d_loss', d_loss.item(), iter)
+                tb_logger.scalar_summary('g_loss', g_loss.item(), iter)
 
             msg = "{:0>8},{}:{}, [{}/{}], {}: {},{}:{}".format(
                 str(datetime.timedelta(seconds=round(time.time() - start_t))),
@@ -112,18 +134,7 @@ def train(args):
                 (time.time() - start_t_batch)
             )
             print(msg)
-
-            if iter % params['model_save_interval'] == 0 and iter > 0:
-                model_save_dir = os.path.join(params['model_save_dir'], params['exp_name'])
-                if os.path.exists(model_save_dir) == False:
-                    os.makedirs(model_save_dir)
-                D_ckpt_model_filename = "D_iter_%d.pth" % (iter)
-                G_ckpt_model_filename = "G_iter_%d.pth" % (iter)
-                D_model_save_path = os.path.join(model_save_dir, D_ckpt_model_filename)
-                G_model_save_path = os.path.join(model_save_dir, G_ckpt_model_filename)
-                torch.save(D_model.module.state_dict(), D_model_save_path)
-                torch.save(G_model.module.state_dict(), G_model_save_path)
-
+            '''
             if iter % params['model_vis_interval'] == 0 and iter > 0:
                 np_pcd = output_point_cloud.permute(0, 2, 1)[0].detach().cpu().numpy()
                 # print(np_pcd.shape)
@@ -138,7 +149,18 @@ def train(args):
                 input_pcd = input_data.permute(0, 2, 1)[0].detach().cpu().numpy()
                 input_img = (np.array(visualize_point_cloud(input_pcd)) * 255).astype(np.uint8)
                 tb_logger.image_summary("input", input_img[np.newaxis, :], iter)
+            '''
             iter += 1
+        if (e+1) % params['model_save_interval'] == 0 and e > 0:
+            model_save_dir = os.path.join(params['model_save_dir'], params['exp_name'])
+            if os.path.exists(model_save_dir) == False:
+                os.makedirs(model_save_dir)
+            D_ckpt_model_filename = "D_iter_%d.pth" % (e)
+            G_ckpt_model_filename = "G_iter_%d.pth" % (e)
+            D_model_save_path = os.path.join(model_save_dir, D_ckpt_model_filename)
+            G_model_save_path = os.path.join(model_save_dir, G_ckpt_model_filename)
+            torch.save(D_model.module.state_dict(), D_model_save_path)
+            torch.save(G_model.module.state_dict(), G_model_save_path)
 
 
 if __name__ == "__main__":

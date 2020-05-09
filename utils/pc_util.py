@@ -1,6 +1,5 @@
 import os,sys
 sys.path.append('../')
-import Common.pc_util as pc_util
 import numpy as np
 import math
 from functools import reduce

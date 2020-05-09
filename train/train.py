@@ -1,5 +1,5 @@
 import os,sys
-os.environ["CUDA_VISIBLE_DEVICES"]="2"
+os.environ["CUDA_VISIBLE_DEVICES"]="6"
 sys.path.append('../')
 import torch
 from network.networks import Generator,Discriminator
@@ -46,7 +46,7 @@ def train(args):
         os.makedirs(log_dir)
     tb_logger=Logger(log_dir)
 
-    trainloader=PUNET_Dataset(h5_file_path=params["dataset_dir"])
+    trainloader=PUNET_Dataset(h5_file_path=params["dataset_dir"],split_dir=params['train_split'])
     #print(params["dataset_dir"])
     num_workers=4
     train_data_loader=data.DataLoader(dataset=trainloader,batch_size=params["batch_size"],shuffle=True,

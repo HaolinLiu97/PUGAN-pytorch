@@ -14,11 +14,15 @@ args = parser.parse_args()
 
 if __name__=="__main__":
     file_dir=glob.glob(os.path.join(args.data_dir,"*.xyz"))##visualize all xyz file
+    pcd_list=[]
+    for file in file_dir:
+        if file.split('/')[-1].find("_")<0:
+            pcd_list.append(file)
     image_save_dir=os.path.join("../vis_result",args.exp_name)
     if os.path.exists(image_save_dir)==False:
         os.makedirs(image_save_dir)
 
-    for file in file_dir:
+    for file in pcd_list:
         file_name=file.split("/")[-1].split('.')[0]
         pcd=np.loadtxt(file)
         img = draw_point_cloud(pcd, zrot=90 / 180.0 * np.pi, xrot=90 / 180.0 * np.pi, yrot=0 / 180.0 * np.pi,

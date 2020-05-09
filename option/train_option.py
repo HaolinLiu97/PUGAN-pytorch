@@ -8,6 +8,8 @@ def get_train_options():
     opt["test_save_dir"]=opt['project_dir'] + '/test_results'
     opt['test_log_dir']=opt['project_dir'] + '/log_results'
     opt['dataset_dir'] = os.path.join(opt["project_dir"],"Patches_noHole_and_collected.h5")
+    opt['test_split']= os.path.join(opt['project_dir'],'data','test_list.txt')
+    opt['train_split']=os.path.join(opt['project_dir'],'data','train_list.txt')
     opt['isTrain']=True
     opt['batch_size'] = 2
     opt['nepoch'] = 100

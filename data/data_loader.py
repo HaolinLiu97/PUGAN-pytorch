@@ -23,20 +23,22 @@ class PUNET_Dataset_Whole(data.Dataset):
         random_index=np.random.choice(np.linspace(0,self.raw_input_points,self.raw_input_points,endpoint=False),self.n_input).astype(np.int)
         points = np.loadtxt(self.sample_path[index])
 
-        centroid=np.mean(points[:,0:3],axis=0)
-        dist=np.linalg.norm(points[:,0:3]-centroid,axis=1)
-        furthest_dist=np.max(dist)
+        #centroid=np.mean(points[:,0:3],axis=0)
+        #dist=np.linalg.norm(points[:,0:3]-centroid,axis=1)
+        #furthest_dist=np.max(dist)
 
-        reduced_point=points[random_index][:,0:3]
+        #reduced_point=points[random_index][:,0:3]
 
-        normalized_points=(reduced_point-centroid)/furthest_dist
+        #normalized_points=(reduced_point-centroid)/furthest_dist
 
-        return normalized_points
+        return points#normalized_points,furthest_dist,centroid
 
 class PUNET_Dataset(data.Dataset):
-    def __init__(self, h5_file_path='./datas/Patches_noHole_and_collected.h5',
-                 skip_rate=1, npoint=1024, use_random=True, use_norm=True):
+    def __init__(self, h5_file_path='../Patches_noHole_and_collected.h5',split_dir='./train_list.txt',
+                 skip_rate=1, npoint=1024, use_random=True, use_norm=True,isTrain=True):
         super().__init__()
+
+        self.isTrain=isTrain
 
         self.npoint = npoint
         self.use_random = use_random
@@ -60,9 +62,16 @@ class PUNET_Dataset(data.Dataset):
             self.input[..., :3] -= centroid
             self.input[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
 
-        self.input = self.input[::skip_rate]
-        self.gt = self.gt[::skip_rate]
-        self.radius = self.radius[::skip_rate]
+        self.split_dir = split_dir
+        self.__load_split_file()
+
+    def __load_split_file(self):
+        index=np.loadtxt(self.split_dir)
+        index=index.astype(np.int)
+        print(index)
+        self.input=self.input[index,:]
+        self.gt=self.gt[index,:]
+        self.radius=self.radius[index]
 
     def __len__(self):
         return self.input.shape[0]
@@ -74,6 +83,9 @@ class PUNET_Dataset(data.Dataset):
 
         sample_idx = utils.nonuniform_sampling(self.data_npoint, sample_num=self.npoint)
         input_data = input_data[sample_idx, :]
+
+        if not self.isTrain:
+            return input_data, gt_data, radius_data
 
         if self.use_norm:
             # for data aug
@@ -94,9 +106,9 @@ class PUNET_Dataset(data.Dataset):
         return input_data, gt_data, radius_data
 
 if __name__=="__main__":
-    #dataset=PUNET_Dataset()
+    dataset=PUNET_Dataset()
     #(input_data,gt_data,radius_data)=dataset.__getitem__(0)
     #print(input_data.shape,gt_data.shape,radius_data.shape)
-    dataset=PUNET_Dataset_Whole(data_dir="../MC_5k",n_input=1024)
-    points=dataset.__getitem__(0)
-    print(points.shape)
+    #dataset=PUNET_Dataset_Whole(data_dir="../MC_5k",n_input=1024)
+    #points=dataset.__getitem__(0)
+    #print(points.shape)
