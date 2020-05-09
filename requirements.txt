@@ -67,8 +67,6 @@ pexpect==4.8.0
 pickleshare==0.7.5
 Pillow==6.2.2
 plyfile==0.7.2
--e git+https://github.com/UncleMEDM/text-shape-match.git@b3ed9b78918991f8c98b7d599b1830b1bcdfe30e#egg=pointnet2&subdirectory=third_party/pointnet2
-pointnet2-ops==3.0.0
 pprint==0.1
 proglog==0.1.9
 prometheus-client==0.7.1
