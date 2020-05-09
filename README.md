@@ -23,6 +23,6 @@ also change params['train_split'] and params['test_split'] to where you save the
 #### training
 ```
 cd train
-python train.py --exp_name=the_project_name --gpu="gpu number" --use_gan
+python train.py --exp_name=the_project_name --gpu="gpu number" --use_gan --batch_size=12
 ```
 
