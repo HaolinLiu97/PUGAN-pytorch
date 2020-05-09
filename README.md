@@ -6,7 +6,12 @@ simply by
 ```
 pip install -r requirement.txt
 ```
-
+#### Install Pointnet2 module
+```
+cd third_pary/pointnet2
+python setup.py install
+pip install -e .
+```
 #### modify some setting in the option/train_option.py
 change opt['project_dir'] to where this project is located, and change opt['dataset_dir'] to where you store the dataset.
 <br/>
