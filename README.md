@@ -12,6 +12,10 @@ cd third_pary/pointnet2
 python setup.py install
 pip install -e .
 ```
+#### Install KNN_cuda
+```
+pip install --upgrade https://github.com/unlimblue/KNN_CUDA/releases/download/0.2/KNN_CUDA-0.2-py3-none-any.whl
+```
 #### modify some setting in the option/train_option.py
 change opt['project_dir'] to where this project is located, and change opt['dataset_dir'] to where you store the dataset.
 <br/>

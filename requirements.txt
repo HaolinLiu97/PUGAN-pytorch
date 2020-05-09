@@ -13,7 +13,6 @@ defusedxml==0.6.0
 docutils==0.16
 entrypoints==0.3
 enum34==1.1.10
-etw-pytorch-utils==1.1.1
 future==0.18.2
 gast==0.3.3
 google-auth==1.12.0
@@ -41,7 +40,6 @@ jupyter-core==4.6.3
 Keras-Applications==1.0.8
 Keras-Preprocessing==1.1.0
 kiwisolver==1.1.0
-KNN-CUDA==0.2
 lmdb==0.98
 Markdown==3.1.1
 MarkupSafe==1.1.1
