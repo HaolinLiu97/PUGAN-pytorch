@@ -9,7 +9,7 @@ pip install -r requirement.txt
 #### Install Pointnet2 module
 ```
 cd third_pary/pointnet2
-python setup.py install
+python setup.py build_ext --inplace
 pip install -e .
 ```
 #### Install KNN_cuda
