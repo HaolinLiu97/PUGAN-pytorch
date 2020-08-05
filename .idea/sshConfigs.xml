@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="5eddd596-c04a-461c-96f4-4f759fe6d70f" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="e556ee1a-34c4-4012-b01b-4c957cd231e1" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="18f07961-a1e2-4c7d-ae28-8af253b913e9" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="6b28c6bb-da61-4217-88f7-6fb1d2c0d6a6" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="e5bc46a8-d19e-40a1-a6b0-56b9f298499d" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="718983c5-9e79-47d2-b6f9-fa71e6343c66" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="10.26.0.68" id="30a45597-f44b-453d-8efb-78ab70670bef" port="22" customName="haolin@10.26.0.68:22" nameFormat="CUSTOM" />
+    </configs>
+  </component>
+</project>
