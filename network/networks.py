@@ -187,7 +187,7 @@ class attention_unit(nn.Module):
             Conv1d(in_channels=in_channels, out_channels=in_channels, kernel_size=1),
             nn.ReLU()
         )
-        self.gamma=Variable(torch.tensor(torch.zeros([1]))).cuda()
+        self.gamma=Variable(torch.tensor(torch.zeros([1])),required_grad=True).cuda()
     def forward(self,inputs):
         f=self.convF(inputs)
         g=self.convG(inputs)#b,32,n
