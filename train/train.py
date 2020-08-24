@@ -1,10 +1,18 @@
 import os,sys
-os.environ["CUDA_VISIBLE_DEVICES"]="6"
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--exp_name', '-e', type=str, required=True, help='experiment name')
+parser.add_argument('--debug', action='store_true', help='specify debug mode')
+parser.add_argument('--use_gan',action='store_true')
+parser.add_argument('--batch_size',type=int,default=16)
+parser.add_argument('--gpu',type=str,default='0')
+
+args = parser.parse_args()
+os.environ["CUDA_VISIBLE_DEVICES"]=args.gpu
 sys.path.append('../')
 import torch
 from network.networks import Generator,Discriminator
 from data.data_loader import PUNET_Dataset
-import argparse
 import time
 from option.train_option import get_train_options
 from utils.Logger import Logger
@@ -14,8 +22,6 @@ from torch.optim.lr_scheduler import MultiStepLR
 from loss.loss import Loss
 import datetime
 import torch.nn as nn
-from utils.visualize_utils import visualize_point_cloud
-import numpy as np
 
 def xavier_init(m):
     classname = m.__class__.__name__
@@ -145,20 +151,6 @@ def train(args):
             )
             print(msg)
 
-            if iter%params['model_vis_interval']==0 and iter>0:
-                np_pcd=output_point_cloud.permute(0,2,1)[0].detach().cpu().numpy()
-                #print(np_pcd.shape)
-                img=(np.array(visualize_point_cloud(np_pcd))*255).astype(np.uint8)
-                tb_logger.image_summary("images", img[np.newaxis,:], iter)
-
-                gt_pcd=gt_data.permute(0,2,1)[0].detach().cpu().numpy()
-                #print(gt_pcd.shape)
-                gt_img=(np.array(visualize_point_cloud(gt_pcd))*255).astype(np.uint8)
-                tb_logger.image_summary("gt", gt_img[np.newaxis,:], iter)
-
-                input_pcd=input_data.permute(0,2,1)[0].detach().cpu().numpy()
-                input_img=(np.array(visualize_point_cloud(input_pcd))*255).astype(np.uint8)
-                tb_logger.image_summary("input", input_img[np.newaxis, :], iter)
             iter+=1
         if (e+1) % params['model_save_interval'] == 0 and e > 0:
             model_save_dir = os.path.join(params['model_save_dir'], params['exp_name'])
@@ -181,12 +173,4 @@ def train(args):
 
 if __name__=="__main__":
     import colored_traceback
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--exp_name', '-e', type=str, required=True, help='experiment name')
-    parser.add_argument('--debug', action='store_true', help='specify debug mode')
-    parser.add_argument('--use_gan',action='store_true')
-    parser.add_argument('--batch_size',type=int,default=16)
-
-    args = parser.parse_args()
     train(args)

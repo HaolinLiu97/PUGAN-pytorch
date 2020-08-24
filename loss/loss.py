@@ -3,7 +3,7 @@ import torch.nn as nn
 import os,sys
 sys.path.append('../')
 from third_party.auction_match import auction_match
-import pointnet2.utils.pointnet2_utils as pn2_utils
+import pointnet2.pointnet2_utils as pn2_utils
 import math
 from knn_cuda import KNN
 
