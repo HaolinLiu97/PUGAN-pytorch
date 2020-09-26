@@ -95,7 +95,7 @@ statistics==1.0.3.5
 tensorboard==1.13.1
 tensorboard-plugin-wit==1.6.0.post2
 tensorboardX==2.0
-tensorflow==1.13.1
+tensorflow==1.15.4
 tensorflow-estimator==1.13.0
 termcolor==1.1.0
 terminado==0.8.3
