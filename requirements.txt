@@ -63,7 +63,7 @@ pandocfilters==1.4.2
 parso==0.6.2
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==6.2.2
+Pillow==9.0.1
 plyfile==0.7.2
 pprint==0.1
 proglog==0.1.9
