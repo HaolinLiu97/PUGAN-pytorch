@@ -31,7 +31,7 @@ class Loss(nn.Module):
         B,N,C=pcd.shape[0],pcd.shape[1],pcd.shape[2]
         npoint=int(N*0.05)
         loss=0
-        further_point_idx = pn2_utils.furthest_point_sample(pcd.permute(0, 2, 1).contiguous(), npoint)
+        further_point_idx = pn2_utils.furthest_point_sample(pcd.contiguous(), npoint)
         new_xyz = pn2_utils.gather_operation(pcd.permute(0, 2, 1).contiguous(), further_point_idx)  # B,C,N
         for p in percentage:
             nsample=int(N*p)
